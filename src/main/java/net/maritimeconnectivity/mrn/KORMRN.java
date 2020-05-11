@@ -14,6 +14,10 @@ public class KORMRN extends MRN{
     protected String isss;
     protected List<String> isssArray;
 
+    /**
+     * Initialize by parsing given string by MCP MRN namesapce
+     * @param str string to be verified as an MRN
+     */
     public KORMRN(String str){
         super(str);
         isid = "";
@@ -23,6 +27,10 @@ public class KORMRN extends MRN{
         parseKorMrn(osns);
     }
 
+    /**
+     * Initialize by converting given MCP MRN
+     * @param mcpmrn validated MCP MRN
+     */
     public KORMRN(MCPMRN mcpmrn){
         super(mcpmrn);
         oid = "kor";
@@ -77,6 +85,10 @@ public class KORMRN extends MRN{
         }
     }
 
+    /**
+     * Export to MCP MRN
+     * @return converted MCP MRN
+     */
     public MCPMRN toMcpMrn(){
         return new MCPMRN(this);
     }

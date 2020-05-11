@@ -14,13 +14,23 @@ public class MCPMRN extends MRN {
     protected String ipss;
     protected List<String> ipssArray;
 
+    /**
+     * Initialize by parsing given string by MCP MRN namesapce
+     * @param str string to be verified as an MRN
+     */
     public MCPMRN(String str){
         super(str);
+        ipid = "";
+        ipss = "";
         if(!oid.equals("mcp"))
             throw new InvalidParameterException("Given string does not follow MCP MRN scheme.");
         parseMcpMrn(osns);
     }
 
+    /**
+     * Initialize by converting given KOR MRN
+     * @param kormrn validated KOR MRN
+     */
     public MCPMRN(KORMRN kormrn){
         super(kormrn);
         oid = "mcp";
@@ -63,6 +73,10 @@ public class MCPMRN extends MRN {
         ipss = String.join(":", ipssArray);
     }
 
+    /**
+     * Export to KOR MRN
+     * @return converted KOR MRN
+     */
     public KORMRN toKorMrn(){
         return new KORMRN(this);
     }

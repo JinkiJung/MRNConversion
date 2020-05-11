@@ -138,14 +138,16 @@ public class Main {
         int i = 0;
 
         for (String mrn : testKorMrns) {
+            // testing the conversion from KOR MRN to MCP MRN
             KORMRN korMrn = new KORMRN(mrn);
             if(!korMrn.toMcpMrn().toString().equals(testMcpMrns[i])){
-                log.info(korMrn.toMcpMrn().toString() + " is not equal to " + testMcpMrns[i]);
+                log.info("ERROR: " + korMrn.toMcpMrn().toString() + " is not equal to " + testMcpMrns[i]);
             }
 
+            // testing the conversion from MCP MRN to KOR MRN
             MCPMRN mcpMrn = new MCPMRN(testMcpMrns[i]);
             if(!mcpMrn.toKorMrn().toString().equals(testKorMrns[i]))
-                log.info(mcpMrn.toKorMrn().toString() + "\t" + testKorMrns[i]);
+                log.info("ERROR: " + mcpMrn.toKorMrn().toString() + "\t" + testKorMrns[i]);
 
             i++;
         }
