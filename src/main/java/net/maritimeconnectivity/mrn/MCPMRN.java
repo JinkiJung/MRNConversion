@@ -12,7 +12,6 @@ public class MCPMRN extends MRN {
     protected String mcpType;
     protected String ipid;
     protected String ipss;
-    protected List<String> ipssArray;
 
     /**
      * Initialize by parsing given string by MCP MRN namesapce
@@ -36,24 +35,26 @@ public class MCPMRN extends MRN {
         oid = "mcp";
         mcpType = convertKorTypeToMcpType(kormrn.korType);
         osnid = mcpType;
-        ipid = kormrn.oid;
-        if(kormrn.isssArray != null){ // when it is not an org type
-            ipssArray = new ArrayList<String>(kormrn.isssArray);
-            updateIpssByKorType(kormrn.korType, kormrn.isid, ipssArray);
-            ipss = String.join(":", ipssArray);
+        ipid = "smart";
+        if(kormrn.isss != null){ // when it is not an org type
+            ipss = updateIpssByKorType(kormrn.korType, kormrn.oid, kormrn.isid, kormrn.isss);
         }
         else{
             ipss = kormrn.isid;
         }
     }
 
-    protected void updateIpssByKorType(String korType, String isid, List<String> isssArray){
+    protected String updateIpssByKorType(String korType, String orgId, String isid, String isss){
         if(korType.equals("service") || korType.equals("vessel") || korType.equals("device") || korType.equals("user")){
-            isssArray.add(0, isid);
+            return orgId + ":" + isid + ":" + isss;
         }
         else if(korType.equals("system")){
-            isssArray.add(0, isid+"-system");
+            return orgId + ":" + isid + "-system:" + isss;
         }
+        else if(korType.equals("org")){
+            return orgId + ":" + isid;
+        }
+        return orgId + ":" + isss;
     }
 
     protected String convertKorTypeToMcpType(String korType){
@@ -69,7 +70,7 @@ public class MCPMRN extends MRN {
         String[] parts = str.split(":");
         mcpType = osnid;
         ipid = parts[0];
-        ipssArray = Arrays.asList(parts).subList(1, parts.length);
+        List<String> ipssArray = Arrays.asList(parts).subList(1, parts.length);
         ipss = String.join(":", ipssArray);
     }
 

@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 public class KORMRN extends MRN{
     protected String korType;
+    protected String orgId;
     protected String isid;
     protected String isss;
-    protected List<String> isssArray;
 
     /**
      * Initialize by parsing given string by MCP MRN namesapce
@@ -22,6 +22,7 @@ public class KORMRN extends MRN{
         super(str);
         isid = "";
         isss = "";
+        orgId = "";
         if(!oid.equals("kor"))
             throw new InvalidParameterException("Given string does not follow KOR MRN scheme.");
         parseKorMrn(osns);
@@ -34,38 +35,26 @@ public class KORMRN extends MRN{
     public KORMRN(MCPMRN mcpmrn){
         super(mcpmrn);
         oid = "kor";
-        isid = convertIsid(mcpmrn.mcpType, mcpmrn.ipssArray);
-        isssArray = new ArrayList<String>(mcpmrn.ipssArray);
-        korType = convertMcpTypeToKorType(mcpmrn.mcpType, isssArray);
+        isid = convertIsid(mcpmrn.mcpType, mcpmrn.ipss);
+        korType = convertMcpTypeToKorType(mcpmrn.mcpType, mcpmrn.ipss);
+        String[] isssArray = mcpmrn.ipss.split(":");
+        if(korType.equals("mcp"))
+            isss = String.join(":",Arrays.copyOfRange(isssArray, 1, isssArray.length));
+        else
+            isss = String.join(":",Arrays.copyOfRange(isssArray, 2, isssArray.length));
         osnid = korType;
-        if(!korType.equals("org")){
-            updateIsssForKorType(korType, isssArray);
-            isss = String.join(":", isssArray);
-        }
-        else{
-            if(isssArray != null)
-                isid = isssArray.get(0);
-            isssArray = null;
-            isss = "";
-        }
     }
 
-    protected String convertIsid(String mcpType, List<String> ipssArray){
+    protected String convertIsid(String mcpType, String ipss){
+        List<String> ipssArray = Arrays.asList(ipss.split(":"));
         if(mcpType.equals("mms"))
             return "mms";
-        else if(mcpType.equals("org"))
-            return "kor";
-        return ipssArray.get(0).split("-")[0];
+        return ipssArray.get(1).split("-")[0];
     }
 
-    protected void updateIsssForKorType(String korType, List<String> isss){
-        if(korType.equals("service") || korType.equals("vessel") || korType.equals("device") || korType.equals("user") || korType.equals("system")){
-            isss.remove(0);
-        }
-    }
-
-    protected String convertMcpTypeToKorType(String mcpType, List<String> isssArray){
-        if(isssArray.get(0).contains("system"))
+    protected String convertMcpTypeToKorType(String mcpType, String ipss){
+        List<String> iossArray = Arrays.asList(ipss.split(":"));
+        if(iossArray.get(1).contains("system"))
             return "system";
         else if(mcpType.equals("mms"))
             return "mcp";
@@ -77,7 +66,7 @@ public class KORMRN extends MRN{
         korType = osnid;
         if(!korType.equals("org")) {
             isid = parts[0];
-            isssArray = Arrays.asList(parts).subList(1, parts.length);
+            List<String> isssArray = Arrays.asList(parts).subList(1, parts.length);
             isss = String.join(":", isssArray);
         }
         else{
@@ -94,6 +83,6 @@ public class KORMRN extends MRN{
     }
 
     public String toString() {
-        return "urn:mrn:"+ oid + ":" + osnid + ":" + isid + (isssArray == null ? "" : ":" + isss);
+        return "urn:mrn:"+ oid + ":" + osnid + ":" + isid + (isss.length() == 0 ? "" : ":" + isss);
     }
 }
