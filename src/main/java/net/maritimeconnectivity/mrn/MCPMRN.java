@@ -36,11 +36,11 @@ public class MCPMRN extends MRN {
         mcpType = convertKorTypeToMcpType(kormrn.korType);
         osnid = mcpType;
         ipid = "smart";
-        if(kormrn.isss != null){ // when it is not an org type
-            ipss = updateIpssByKorType(kormrn.korType, kormrn.oid, kormrn.isid, kormrn.isss);
+        if(mcpType.equals("org")){
+            ipss = kormrn.oid;
         }
         else{
-            ipss = kormrn.isid;
+            ipss = updateIpssByKorType(kormrn.korType, kormrn.oid, kormrn.isid, kormrn.isss);
         }
     }
 
@@ -83,6 +83,6 @@ public class MCPMRN extends MRN {
     }
 
     public String toString() {
-        return "urn:mrn:"+ oid + ":" + osnid + ":" + ipid + ":" + ipss;
+        return "urn:mrn:"+ oid + ":" + osnid + ":" + ipid + (ipss.length() == 0 ? "" : ":" + ipss);
     }
 }

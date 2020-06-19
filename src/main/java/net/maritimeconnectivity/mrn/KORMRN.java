@@ -13,6 +13,7 @@ public class KORMRN extends MRN{
     protected String orgId;
     protected String isid;
     protected String isss;
+    private final String defaultOrg = "mof";
 
     /**
      * Initialize by parsing given string by MCP MRN namesapce
@@ -38,7 +39,9 @@ public class KORMRN extends MRN{
         isid = convertIsid(mcpmrn.mcpType, mcpmrn.ipss);
         korType = convertMcpTypeToKorType(mcpmrn.mcpType, mcpmrn.ipss);
         String[] isssArray = mcpmrn.ipss.split(":");
-        if(korType.equals("mcp"))
+        if (korType.equals("org"))
+            isss = "";
+        else if(korType.equals("mcp"))
             isss = String.join(":",Arrays.copyOfRange(isssArray, 1, isssArray.length));
         else
             isss = String.join(":",Arrays.copyOfRange(isssArray, 2, isssArray.length));
@@ -49,12 +52,16 @@ public class KORMRN extends MRN{
         List<String> ipssArray = Arrays.asList(ipss.split(":"));
         if(mcpType.equals("mms"))
             return "mms";
+        else if(mcpType.equals("org")){
+            return defaultOrg;
+        }
+
         return ipssArray.get(1).split("-")[0];
     }
 
     protected String convertMcpTypeToKorType(String mcpType, String ipss){
-        List<String> iossArray = Arrays.asList(ipss.split(":"));
-        if(iossArray.get(1).contains("system"))
+        List<String> ipssArray = Arrays.asList(ipss.split(":"));
+        if(ipssArray.size()>1 && ipssArray.get(1).contains("system"))
             return "system";
         else if(mcpType.equals("mms"))
             return "mcp";

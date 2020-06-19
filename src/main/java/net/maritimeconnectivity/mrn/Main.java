@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Main {
 
     public static void main(String[] args) {
+
         String[] testKorMrns = {
                 "urn:mrn:kor:vessel:officialno:2004-005-649720",
                 "urn:mrn:kor:vessel:officialno:bsc-200001",
@@ -132,7 +133,7 @@ public class Main {
                 "urn:mrn:mcp:mms:smart:kor:smart:001",
                 "urn:mrn:mcp:mms:smart:kor:smart:002",
                 "urn:mrn:mcp:mms:smart:kor:smart:003",
-                "urn:mrn:mcp:org:smart:kor:mof"
+                "urn:mrn:mcp:org:smart:kor"
         };
 
         int i = 0;
@@ -149,19 +150,6 @@ public class Main {
             if(!mcpMrn.toKorMrn().toString().equals(testKorMrns[i]))
                 log.info("ERROR: " + mcpMrn.toKorMrn().toString() + "\t" + testKorMrns[i]);
 
-            /*
-            KORMRN korMrn = new KORMRN(mrn);
-            System.out.println(korMrn.toString());
-            System.out.println(korMrn.toMcpMrn().toString());
-            System.out.println(korMrn.toMcpMrn().toKorMrn().toString());
-
-            MCPMRN mcpMrn = new MCPMRN(mrn);
-            if(!mcpMrn.toString().equals(mcpMrn.toKorMrn().toMcpMrn().toString())){
-                System.out.println(mcpMrn.toString());
-                System.out.println(mcpMrn.toKorMrn().toString());
-                System.out.println(mcpMrn.toKorMrn().toMcpMrn().toString());
-            }
-             */
             i++;
         }
     }
