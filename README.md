@@ -5,7 +5,7 @@ A MRNConversion tool currently supporting the conversion between MCP and KOR MRN
 Based on [MCC Identity Management and Security: General Approach and Basic Requirements](https://maritimeconnectivity.net/docs/mcp-idsec-1-v2.pdf)
 
 ## KOR MRN rule
-Based on KOR MRN specification v1.4.3
+Based on KOR MRN specification v1.5.0
 
 ## License
 MIT license
