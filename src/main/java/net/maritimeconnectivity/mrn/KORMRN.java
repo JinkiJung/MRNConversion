@@ -55,8 +55,10 @@ public class KORMRN extends MRN{
         else if(mcpType.equals("org")){
             return defaultOrg;
         }
-
-        return ipssArray.get(1).split("-")[0];
+        else if(mcpType.equals("service"))
+            return ipssArray.get(1);
+        else
+            return ipssArray.get(1).split("-")[0];
     }
 
     protected String convertMcpTypeToKorType(String mcpType, String ipss){
