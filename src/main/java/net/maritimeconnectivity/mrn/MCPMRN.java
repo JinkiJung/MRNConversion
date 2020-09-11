@@ -36,12 +36,7 @@ public class MCPMRN extends MRN {
         mcpType = convertKorTypeToMcpType(kormrn.korType);
         osnid = mcpType;
         ipid = "smart";
-        if(mcpType.equals("org")){
-            ipss = kormrn.oid;
-        }
-        else{
-            ipss = updateIpssByKorType(kormrn.korType, kormrn.oid, kormrn.isid, kormrn.isss);
-        }
+        ipss = updateIpssByKorType(kormrn.korType, kormrn.oid, kormrn.isid, kormrn.isss);
     }
 
     protected String updateIpssByKorType(String korType, String orgId, String isid, String isss){

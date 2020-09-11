@@ -123,7 +123,7 @@ public class Main {
                 "urn:mrn:mcp:mms:smart:kor:smart:001",
                 "urn:mrn:mcp:mms:smart:kor:smart:002",
                 "urn:mrn:mcp:mms:smart:kor:smart:003",
-                "urn:mrn:mcp:org:smart:kor"
+                "urn:mrn:mcp:org:smart:kor:mof"
         };
 
         int i = 0;
